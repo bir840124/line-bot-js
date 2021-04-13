@@ -40,18 +40,30 @@ class MessageClass {
     }
 
     async Sticker(event) {
-        let userId = event.source.userId;
-        let displayName = "";
-        let profile = await this.bot.getUserProfile(userId);
-        if (profile) {
-            displayName = profile.displayName;
+        switch (event.source.type) {
+            case "user": {
+                let userId = event.source.userId;
+                let displayName = "";
+                let profile = await this.bot.getUserProfile(userId);
+                if (profile) {
+                    displayName = profile.displayName;
+                }
+                let replyMsg = `line://app/1602687308-GXq4Vvk9?type=sticker&stk=noanim&sid=${event.message.stickerId}&pkg=${event.message.packageId}`;
+                let res_reply = event.reply(replyMsg).then(function (data) {
+                    // 當訊息成功回傳後的處理
+                }).catch(function (error) {
+                    // 當訊息回傳失敗後的處理
+                });
+                break;
+            }
+
+            case "group": {
+                break;
+            }
+
+            default:
+                break;
         }
-        let replyMsg = `line://app/1602687308-GXq4Vvk9?type=sticker&stk=noanim&sid=${event.message.stickerId}&pkg=${event.message.packageId}`;
-        let res_reply = event.reply(replyMsg).then(function (data) {
-            // 當訊息成功回傳後的處理
-        }).catch(function (error) {
-            // 當訊息回傳失敗後的處理
-        });
     }
 
     async User(event) {
